@@ -16,13 +16,13 @@ def show_mainpage(request):
             "properties": {
             "title": place.title,
             "placeId": place.id,
-            "detailsUrl": None}}
+            "detailsUrl": f'/places/{place.id}'}}
         places_content.append(place_description)
     frontend_json_source ={"type": "FeatureCollection"}
     frontend_json_source["features"] = places_content
     return render(request, 'index.html', context={'frontend_json_source': frontend_json_source})
 
-def get_location_id(request,id):
+def get_location(request,id):
     place = get_object_or_404(Place, pk=id)
     image_catalog=[]
     for image_object in place.place_images.all():
@@ -37,5 +37,4 @@ def get_location_id(request,id):
     }
 
     response = JsonResponse(json_answer)
-    #response = JsonResponse(json.dumps(json_answer,ensure_ascii=False), safe=False)
     return response

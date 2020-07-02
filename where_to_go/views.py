@@ -1,5 +1,10 @@
+from django.conf import settings
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+
 from places.models import Place, Image
+
 
 def show_mainpage(request):
     all_places = Place.objects.all()
@@ -16,3 +21,21 @@ def show_mainpage(request):
     frontend_json_source ={"type": "FeatureCollection"}
     frontend_json_source["features"] = places_content
     return render(request, 'index.html', context={'frontend_json_source': frontend_json_source})
+
+def get_location_id(request,id):
+    place = get_object_or_404(Place, pk=id)
+    image_catalog=[]
+    for image_object in place.place_images.all():
+        image_url = f'{settings.MEDIA_URL}{image_object.image.name}'
+        image_catalog.append(image_url)
+    json_answer = {
+        "title":place.title,
+        "imgs": image_catalog,
+        "description_short": place.description_short,
+        "description_long": place.description_long,
+        "coordinates":{"lat":place.lat,"lng":place.lng}
+    }
+
+    response = JsonResponse(json_answer)
+    #response = JsonResponse(json.dumps(json_answer,ensure_ascii=False), safe=False)
+    return response

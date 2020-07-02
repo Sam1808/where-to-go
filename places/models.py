@@ -15,6 +15,8 @@ class Place(models.Model):
 class Image(models.Model):
     image = models.ImageField("Картинка")
     description_short = models.TextField("Описание картинки", )
+    place = models.ForeignKey(Place, verbose_name='Картинка локации', on_delete=models.CASCADE,
+                             related_name='place_images', blank = True, null=True)
 
     def __str__(self):
-        return f'Картинка #{self.id}'
+        return f'{self.id} {self.place}'

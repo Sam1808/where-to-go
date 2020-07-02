@@ -15,3 +15,6 @@ class Place(models.Model):
 class Image(models.Model):
     image = models.ImageField("Картинка")
     description_short = models.TextField("Описание картинки", )
+
+    def __str__(self):
+        return f'Картинка #{self.id}'

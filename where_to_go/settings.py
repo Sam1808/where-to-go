@@ -128,5 +128,8 @@ STATIC_URL="/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_dir"),
 ]
-MEDIA_ROOT = os.getenv("MEDIA_ROOT")
-MEDIA_URL = os.getenv("MEDIA_URL")
+
+#MEDIA_ROOT = os.getenv("MEDIA_ROOT")
+#MEDIA_URL = os.getenv("MEDIA_URL")
+MEDIA_ROOT="media/"
+MEDIA_URL="/media/"

@@ -16,7 +16,6 @@ class Command(BaseCommand):
         response = requests.get(json_url)
         json_data = response.json()
 
-        # Create location object
         location, created = Place.objects.get_or_create(
             title=json_data['title'],
             description_short=json_data['description_short'],
@@ -25,7 +24,6 @@ class Command(BaseCommand):
             lat=json_data['coordinates']['lat'],
         )
         if created:
-            # Get location images
             media_folder = settings.MEDIA_ROOT
             image_urls_catalog = json_data['imgs']
             for image_url in image_urls_catalog:

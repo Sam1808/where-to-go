@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
+from environs import Env
 
-load_dotenv()
+env = Env()
+env.read_env()  # read .env file
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,12 +24,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = []
+DEBUG = env.bool("DEBUG")
+
+ALLOWED_HOSTS = ['127.0.0.1',]
 
 # Application definition
 
@@ -122,11 +124,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = os.getenv("STATIC_URL")
+STATIC_URL = env.str("STATIC_URL")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_dir"),
 ]
 
-MEDIA_ROOT = os.getenv("MEDIA_ROOT")
-MEDIA_URL = os.getenv("MEDIA_URL")
+MEDIA_ROOT = env.str("MEDIA_ROOT")
+MEDIA_URL = env.str("MEDIA_URL")

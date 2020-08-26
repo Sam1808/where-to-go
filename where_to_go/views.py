@@ -25,8 +25,11 @@ def show_mainpage(request):
             }
 
         places_content.append(place_description)
-    frontend_json_source ={"type": "FeatureCollection"}
-    frontend_json_source["features"] = places_content
+    frontend_json_source ={
+        "type": "FeatureCollection",
+        "features": places_content
+        }
+    #frontend_json_source["features"] = places_content
     return render(request, 'index.html', context={'frontend_json_source': frontend_json_source})
 
 def get_location(request,id):

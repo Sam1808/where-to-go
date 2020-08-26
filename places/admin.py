@@ -27,4 +27,7 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
 class PlaceAdmin(admin.ModelAdmin):
     inlines = [ImageInline]
 
-admin.site.register(Image)
+
+class ImageAdmin(admin.ModelAdmin):
+    raw_id_fields = ('place',)
+admin.site.register(Image, ImageAdmin)

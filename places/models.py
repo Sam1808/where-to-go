@@ -16,7 +16,7 @@ class Image(models.Model):
     position = models.PositiveIntegerField("Позиция", default=0, db_index=True)
     short_image_description = models.TextField("Описание картинки", blank=True)
     place = models.ForeignKey(Place, verbose_name='Картинка локации', on_delete=models.CASCADE,
-                             related_name='place_images', blank = True, null=True)
+                             related_name='place_images')
 
     class Meta(object):
         ordering = ['position']

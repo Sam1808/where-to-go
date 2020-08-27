@@ -1,5 +1,6 @@
 import requests
 import os
+from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from places.models import Place, Image
@@ -30,10 +31,10 @@ class Command(BaseCommand):
                 image_name = image_url.split('/')[-1]
                 image_path = os.path.join(media_folder, image_name)
                 response = requests.get(image_url)
-                with open(image_path, 'wb') as file:
-                    file.write(response.content)
                 picture, created = Image.objects.get_or_create(
                     image=image_name,
                     place=location,
                     )
+                picture.image.save(image_path, ContentFile(response.content))
+
             print(f'Created location: {location}')

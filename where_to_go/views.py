@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -29,15 +28,13 @@ def show_mainpage(request):
         "type": "FeatureCollection",
         "features": places_content
         }
-    #frontend_json_source["features"] = places_content
     return render(request, 'index.html', context={'frontend_json_source': frontend_json_source})
 
 def get_location(request,id):
     place = get_object_or_404(Place, pk=id)
     image_catalog=[]
     for image_object in place.place_images.all():
-        image_url = f'{settings.MEDIA_URL}{image_object.image.name}'
-        image_catalog.append(image_url)
+        image_catalog.append(image_object.image.url)
     json_answer = {
         "title":place.title,
         "imgs": image_catalog,

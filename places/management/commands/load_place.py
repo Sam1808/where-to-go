@@ -1,5 +1,4 @@
 import requests
-import os
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -25,16 +24,14 @@ class Command(BaseCommand):
             lat=json_data['coordinates']['lat'],
         )
         if created:
-            media_folder = settings.MEDIA_ROOT
             image_urls_catalog = json_data['imgs']
             for image_url in image_urls_catalog:
                 image_name = image_url.split('/')[-1]
-                image_path = os.path.join(media_folder, image_name)
                 response = requests.get(image_url)
                 picture, created = Image.objects.get_or_create(
                     image=image_name,
                     place=location,
                     )
-                picture.image.save(image_path, ContentFile(response.content))
+                picture.image.save(image_name, ContentFile(response.content))
 
             print(f'Created location: {location}')

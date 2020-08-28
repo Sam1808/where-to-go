@@ -1,4 +1,9 @@
+import requests
+#from django.core.files.base import ContentFile
+
+
 from django.contrib import admin
+from django.conf import settings
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.utils.html import format_html
 from .models import Place, Image
@@ -8,6 +13,9 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     readonly_fields = ["get_preview",]
 
     def get_preview(self,obj):
+        if not obj.image:
+            return format_html('<b>No image<br>available</b>')
+        
         height = obj.image.height
         width = obj.image.width
         if height > 200:
@@ -19,7 +27,8 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
             url=obj.image.url,
             width=width,
             height=height,)
-        )
+            )
+            
 
     fields = ('image','get_preview','position')
 

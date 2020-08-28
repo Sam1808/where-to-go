@@ -5,10 +5,9 @@ from django.shortcuts import render
 from places.models import Place, Image
 
 
-def show_mainpage(request):
-    all_places = Place.objects.all()
+def show_mainpage(request):    
     places_content = []
-    for place in all_places:
+    for place in Place.objects.all():
         
         place_description = {
             "type": "Feature",
@@ -22,8 +21,8 @@ def show_mainpage(request):
                 "detailsUrl": f'/places/{place.id}'
                 }
             }
-
         places_content.append(place_description)
+
     frontend_json_source ={
         "type": "FeatureCollection",
         "features": places_content
@@ -32,9 +31,10 @@ def show_mainpage(request):
 
 def get_location(request,id):
     place = get_object_or_404(Place, pk=id)
-    image_catalog=[]
-    for image_object in place.place_images.all():
-        image_catalog.append(image_object.image.url)
+    image_catalog = [
+        image_object.image.url for image_object in place.place_images.all()
+        ]
+
     json_answer = {
         "title":place.title,
         "imgs": image_catalog,

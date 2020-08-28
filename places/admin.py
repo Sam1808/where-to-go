@@ -1,9 +1,4 @@
-import requests
-#from django.core.files.base import ContentFile
-
-
 from django.contrib import admin
-from django.conf import settings
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.utils.html import format_html
 from .models import Place, Image
@@ -28,8 +23,7 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
             width=width,
             height=height,)
             )
-            
-
+    
     fields = ('image','get_preview','position')
 
 @admin.register(Place)

@@ -18,12 +18,12 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
             height = 200
             width = height/img_ratio
 
-        return format_html('<img src="{url}" width="{width}" height={height} />'.format(
-            url=obj.image.url,
-            width=width,
-            height=height,)
+        return format_html('<img src={} width={} height={}>',
+            obj.image.url,
+            width,
+            height,
             )
-    
+
     fields = ('image','get_preview','position')
 
 @admin.register(Place)

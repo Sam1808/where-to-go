@@ -43,5 +43,4 @@ def get_location(request,id):
         "coordinates":{"lat":place.lat,"lng":place.lng}
     }
 
-    response = JsonResponse(json_answer)
-    return response
+    return JsonResponse(json_answer)

@@ -1,9 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-
 from places.models import Place, Image
-
+from django.urls import reverse
 
 def show_mainpage(request):    
     places_content = []
@@ -18,9 +17,10 @@ def show_mainpage(request):
             "properties": {
                 "title": place.title,
                 "placeId": place.id,
-                "detailsUrl": f'/places/{place.id}'
+                "detailsUrl": reverse('places', args=[place.id])
                 }
             }
+        
         places_content.append(place_description)
 
     frontend_json_source ={

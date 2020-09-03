@@ -7,6 +7,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.show_mainpage),
-    path('places/<int:id>/', views.get_location),
+    path('places/<int:id>/', views.get_location, name='places'),
     path('tinymce/', include('tinymce.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

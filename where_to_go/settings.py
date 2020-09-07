@@ -140,4 +140,4 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = "media/"
 MEDIA_URL = "/media/"
 
-print 'Please update STATIC_URL , MEDIA_ROOT, MEDIA_URL, SECRET_KEY, DEBUG'
+print ('Please update STATIC_URL , MEDIA_ROOT, MEDIA_URL, SECRET_KEY, DEBUG')

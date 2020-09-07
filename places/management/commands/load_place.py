@@ -19,23 +19,9 @@ class Command(BaseCommand):
         except ConnectionError:
             print('Connection Error')
             exit()
-        
-        headers = {'Accept': 'application/json'}
-        
-        try:
-            response_status = requests.get(  
-                f'https://httpstat.us/{response.status_code}', headers=headers).json() # get description for status code
-        except:
-            response_status = {
-                'code': 200,
-                'description': 'Error due fetch status. Lets try to continue...',
-            }
-       
-
-        if response_status['code'] != 200:
-            print( f"Error:{response_status['description']}")
+        except HTTPError:
+            print('Connection Error')
             exit()
-        
 
         json_data = response.json()
 
@@ -53,23 +39,16 @@ class Command(BaseCommand):
             image_urls_catalog = json_data['imgs']
             for image_url in image_urls_catalog:
                 image_name = image_url.split('/')[-1]
-                response = requests.get(image_url)
                 
                 try:
-                    response_status = requests.get(
-                        f'https://httpstat.us/{response.status_code}', headers=headers).json()  # get description for status code
-                except:
-                    response_status = {
-                        'code': 200,
-                        'description': 'Error due fetch status. Lets try to continue...',
-                    }
-
-                response_status= requests.get(
-                    f'https://httpstat.us/{response.status_code}', headers=headers).json()
-
-                if response_status['code'] != 200:
-                    print(f"Error:{response_status['description']}")
-                    # exit() Maybe I will be lucky with the next picture...
+                    response = requests.get(image_url)
+                    response.raise_for_status
+                except ConnectionError:
+                    print('Connection Error')
+                    exit()
+                except HTTPError:
+                    print('Connection Error')
+                    exit()
 
                 picture, created = Image.objects.get_or_create(
                     image=image_name,

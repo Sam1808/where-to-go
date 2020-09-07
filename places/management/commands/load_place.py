@@ -21,8 +21,15 @@ class Command(BaseCommand):
             exit()
         
         headers = {'Accept': 'application/json'}
-        response_status = requests.get(  
-            f'https://httpstat.us/{response.status_code}', headers=headers).json() # get description for status code
+        
+        try:
+            response_status = requests.get(  
+                f'https://httpstat.us/{response.status_code}', headers=headers).json() # get description for status code
+        except:
+            response_status = {
+                'code': 200,
+                'description': 'Error due fetch status. Let's try to continue...',
+            }
        
 
         if response_status['code'] != 200:
@@ -48,6 +55,15 @@ class Command(BaseCommand):
                 image_name = image_url.split('/')[-1]
                 response = requests.get(image_url)
                 
+                try:
+                    response_status = requests.get(
+                        f'https://httpstat.us/{response.status_code}', headers=headers).json()  # get description for status code
+                except:
+                    response_status = {
+                        'code': 200,
+                        'description': 'Error due fetch status. Let's try to continue...',
+                    }
+
                 response_status= requests.get(
                     f'https://httpstat.us/{response.status_code}', headers=headers).json()
 

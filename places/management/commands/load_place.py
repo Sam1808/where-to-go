@@ -28,7 +28,7 @@ class Command(BaseCommand):
         except:
             response_status = {
                 'code': 200,
-                'description': 'Error due fetch status. Let's try to continue...',
+                'description': 'Error due fetch status. Lets try to continue...',
             }
        
 
@@ -61,7 +61,7 @@ class Command(BaseCommand):
                 except:
                     response_status = {
                         'code': 200,
-                        'description': 'Error due fetch status. Let's try to continue...',
+                        'description': 'Error due fetch status. Lets try to continue...',
                     }
 
                 response_status= requests.get(

@@ -24,11 +24,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("SECRET_KEY")
 
+#SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = "1*$)xk#s3u-j1bw_vdf6rzcgq)2=il!d3o$0h-po!7z1cj#qce"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG")
+
+#DEBUG = env.bool("DEBUG")
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -124,11 +127,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = env.str("STATIC_URL")
+#STATIC_URL = env.str("STATIC_URL")
+STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_dir"),
 ]
 
-MEDIA_ROOT = env.str("MEDIA_ROOT")
-MEDIA_URL = env.str("MEDIA_URL")
+#MEDIA_ROOT = env.str("MEDIA_ROOT")
+#MEDIA_URL = env.str("MEDIA_URL")
+
+MEDIA_ROOT = "media/"
+MEDIA_URL = "/media/"
+
+print 'Please update STATIC_URL , MEDIA_ROOT, MEDIA_URL, SECRET_KEY, DEBUG'

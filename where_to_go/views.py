@@ -29,8 +29,8 @@ def show_mainpage(request):
         }
     return render(request, 'index.html', context={'frontend_json_source': frontend_json_source})
 
-def get_location(request,id):
-    place = get_object_or_404(Place, pk=id)
+def get_location(request,pk):
+    place = get_object_or_404(Place, pk=pk)
     image_catalog = [
         image_object.image.url for image_object in place.images.all()
         ]

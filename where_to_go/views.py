@@ -32,14 +32,14 @@ def show_mainpage(request):
 def get_location(request,id):
     place = get_object_or_404(Place, pk=id)
     image_catalog = [
-        image_object.image.url for image_object in place.place_images.all()
+        image_object.image.url for image_object in place.images.all()
         ]
 
     json_answer = {
         "title":place.title,
         "imgs": image_catalog,
-        "description_short": place.short_place_description,
-        "description_long": place.long_place_description,
+        "description_short": place.short_description,
+        "description_long": place.long_description,
         "coordinates":{"lat":place.lat,"lng":place.lng}
     }
 

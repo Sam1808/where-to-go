@@ -16,12 +16,16 @@ class Command(BaseCommand):
         try: #test connection
             response = requests.get(json_url)
             response.raise_for_status()
-        except ConnectionError:
-            print('Connection Error')
-            exit()
-        except HTTPError:
-            print('Connection Error')
-            exit()
+        except ConnectionError as err:
+            print ('''
+            Something wrong with Internet connection.
+            -----Information-----''')
+            raise SystemExit(err)
+        except HTTPError as err:
+            print ('''
+            Something wrong with URL. PLease fix & try again.
+            -----Information-----''')
+            raise SystemExit(err)
 
         json_data = response.json()
 
@@ -30,8 +34,8 @@ class Command(BaseCommand):
 
         location, created = Place.objects.get_or_create(
             title=json_data['title'],
-            short_place_description=json_data['description_short'],
-            long_place_description=json_data['description_long'],
+            short_description=json_data['description_short'],
+            long_description=json_data['description_long'],
             lng=json_data['coordinates']['lng'],
             lat=json_data['coordinates']['lat'],
         )
@@ -44,12 +48,17 @@ class Command(BaseCommand):
                     response = requests.get(image_url)
                     response.raise_for_status
                 except ConnectionError:
-                    print('Connection Error')
-                    exit()
+                    print('''
+            Something wrong with Internet connection.
+            -----Information-----
+            Skipping location`s image and trying get next.''')
+                    
                 except HTTPError:
-                    print('Connection Error')
-                    exit()
-
+                    print('''
+            Something wrong with image URL.
+            -----Information-----
+            Skipping location`s image and trying get next.''')
+                                            
                 picture, created = Image.objects.get_or_create(
                     image=image_name,
                     place=location,

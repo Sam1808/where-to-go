@@ -24,7 +24,7 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
             height,
             )
 
-    fields = ('image','get_preview','position')
+    fields = ['image', 'get_preview',]
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):

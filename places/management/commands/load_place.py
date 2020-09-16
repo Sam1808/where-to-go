@@ -39,30 +39,32 @@ class Command(BaseCommand):
             lng=json_data['coordinates']['lng'],
             lat=json_data['coordinates']['lat'],
         )
-        if created:
-            image_urls_catalog = json_data['imgs']
-            for image_url in image_urls_catalog:
-                image_name = image_url.split('/')[-1]
-                
-                try:
-                    response = requests.get(image_url)
-                    response.raise_for_status
-                except ConnectionError:
-                    print('''
-            Something wrong with Internet connection.
-            -----Information-----
-            Skipping location`s image and trying get next.''')
-                    
-                except HTTPError:
-                    print('''
-            Something wrong with image URL.
-            -----Information-----
-            Skipping location`s image and trying get next.''')
-                                            
-                picture, created = Image.objects.get_or_create(
-                    image=image_name,
-                    place=location,
-                    )
-                picture.image.save(image_name, ContentFile(response.content))
+        if not created:
+            return f'Location "{location}" has already been added.'
 
-            print(f'Created location: {location}')
+        image_urls_catalog = json_data['imgs']
+        for image_url in image_urls_catalog:
+            image_name = image_url.split('/')[-1]
+                
+            try:
+                response = requests.get(image_url)
+                response.raise_for_status
+            except ConnectionError:
+                print('''
+                Something wrong with Internet connection.
+                -----Information-----
+                Skipping location`s image and trying get next.''')
+                    
+            except HTTPError:
+                print('''
+                Something wrong with image URL.
+                -----Information-----
+                Skipping location`s image and trying get next.''')
+                                            
+            picture, created = Image.objects.get_or_create(
+                image=image_name,
+                place=location,
+                )
+            picture.image.save(image_name, ContentFile(response.content))
+
+        return f'Created location: "{location}"'
